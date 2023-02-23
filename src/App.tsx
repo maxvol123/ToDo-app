@@ -1,32 +1,43 @@
 import axios from "axios";
 import { useState } from "react";
+import { Modal } from "./components/Modal";
 
 function App() {
-  const [title,setTitle]=useState("")
-  const [text,setText]=useState("")
-  const changeTitle= (event: React.ChangeEvent<HTMLInputElement>)=>{
-    setTitle(event.target.value)
+  const [modal,setModal]=useState(false)
+
+  const [email,setEmail]=useState("")
+  const [password,setPassword]=useState("")
+  const changeEmail= (event: React.ChangeEvent<HTMLInputElement>)=>{
+    setEmail(event.target.value)
     }
-    const changeText= (event: React.ChangeEvent<HTMLInputElement>)=>{
-      setText(event.target.value)
+    const changePassword= (event: React.ChangeEvent<HTMLInputElement>)=>{
+      setPassword(event.target.value)
       }
-  function Create() {
-    return axios.post("http://localhost:777/posts",{
-      "title":title,
-      "text":text
-    })
+      const notDefoult = async(event: React.FormEvent)=>{
+        event.preventDefault()
+    }
+  function Login() {
+    return axios.post("http://localhost:777/login",{
+      "email":email,
+      "password":password
+    }).then((res)=>{localStorage.setItem("Token",res.data.token);console.log(res);
+    
+    setModal(false)})
   }
   return (
 <>
-<div className="">
-<header className='text-[96px] ml-9'>TODO</header>
-<div className="flex justify-center">
-  <form onSubmit={()=>Create()} className="flex flex-col">
-  <input type="text" placeholder="Enter title..." className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={title} onChange={changeTitle}/>
-  <input type="text" placeholder="Enter desribtion..." className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={text} onChange={changeText}/>
-  <input type="submit" value="Create" className="bg-[#5aff3199] py-3" />
+{modal&&<Modal title="Login">
+  <form className="text-black flex justify-center flex-col px-[40%]" onSubmit={notDefoult}>
+    <input type="email" placeholder="email" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={email} onChange={changeEmail}/>
+    <input type="password" placeholder="password" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={password} onChange={changePassword}/>
+    <input type="submit" value="Login" className="bg-[#5aff3199] py-3" onClick={()=>{Login()}}/>
   </form>
-</div>
+</Modal>}
+<div className="">
+<header className='text-[96px] ml-9 flex flex-row justify-around'>TODO 
+<button className='text-[50px] bg-black ml-9 rounded px-5 py-3' onClick={()=>setModal(true)}>SignUp</button>
+</header>
+
 </div>
 </>
   );
