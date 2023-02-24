@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { Modal } from "./components/Modal";
+import { Post } from "./components/Post";
 
 function App() {
 
@@ -12,7 +13,10 @@ function App() {
   const [memail, setMemail]=useState("")
   const [name, setname]=useState("")
   const [password,setPassword]=useState("")  
+  const [posts,setPosts]=useState([]); 
+
   useEffect(()=>{
+    Get()
   if (localStorage.getItem("Token")) {
     setLogin(false)
     axios.get("http://localhost:777/me",{
@@ -48,6 +52,16 @@ function App() {
     })
 
   }
+  function Get() {
+    return axios.get("http://localhost:777/posts",{
+      headers:{
+        authorization:localStorage.getItem("Token")
+      }
+    }).then((res)=>{setPosts(res.data)
+      console.log(res.data);
+    })
+}
+
   return (
 <>
 {modal&&<Modal title="Login">
@@ -69,7 +83,9 @@ function App() {
 <header className='text-[96px] ml-9 flex flex-row justify-around'>TODO 
 {login?(<button className='text-[50px] bg-black ml-9 rounded px-5 py-3' onClick={()=>setModal(true)}>SignUp</button>):(<button className='text-[50px] bg-black ml-9 rounded px-5 py-3' onClick={()=>setMe(true)}>Me</button>)}
 </header>
-
+<div className="text-center bg-[#25273C] w-[666px] items-center center">
+{posts?.map(post=><Post post={post}></Post>)}
+</div>
 </div>
 </>
   );
