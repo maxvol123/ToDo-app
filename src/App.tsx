@@ -28,6 +28,8 @@ function App() {
      setMemail(res.data.email)
      setname(res.data.fullname)
     })
+  }else{
+    setLogin(true)
   }  
   },[])
   const changeEmail= (event: React.ChangeEvent<HTMLInputElement>)=>{
