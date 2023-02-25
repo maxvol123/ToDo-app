@@ -4,7 +4,6 @@ export function Modal({title,children}:any) {
             <div className="bg-white rounded-xl4 w-full mt-28 py-7">
                 <div className="text-black text-center text-3xl mb-5">{title}</div>
                 {children}
-
             </div>
 </div>
 )}
