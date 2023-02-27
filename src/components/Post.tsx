@@ -4,7 +4,7 @@ export function Post(post:any) {
     function Delete() {
         console.log(123);
         
-        axios.delete(`http://localhost:777/posts/${post.post._id}`,{
+        axios.delete(`https://backendtodo-51m3.onrender.com/posts/${post.post._id}`,{
             headers:{
               authorization:localStorage.getItem("Token")
             }

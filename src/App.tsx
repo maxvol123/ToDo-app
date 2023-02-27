@@ -24,7 +24,7 @@ function App() {
     Get()
   if (localStorage.getItem("Token")) {
     setLogin(false)
-    axios.get("http://localhost:777/me",{
+    axios.get("https://backendtodo-51m3.onrender.com/me",{
       headers:{
         authorization:localStorage.getItem("Token")
       }
@@ -58,7 +58,7 @@ function App() {
           setFname(event.target.value)
         }
   function Login() {
-      return axios.post("http://localhost:777/login",{
+      return axios.post("https://backendtodo-51m3.onrender.com/login",{
         "email":email,
         "password":password
       }).then((res)=>{localStorage.setItem("Token",res.data.token);
@@ -71,7 +71,7 @@ function App() {
 
   }
   function SignUp() {
-    return axios.post("http://localhost:777/register",{
+    return axios.post("https://backendtodo-51m3.onrender.com/register",{
       "email":email,
       "password":password,
       "fullname":fname
@@ -85,7 +85,7 @@ function App() {
 
 }
   function Get() {
-    return axios.get("http://localhost:777/posts",{
+    return axios.get("https://backendtodo-51m3.onrender.com/posts",{
       headers:{
         authorization:localStorage.getItem("Token")
       }
@@ -94,7 +94,7 @@ function App() {
     })
 }
 function Add() {
-  return axios.post("http://localhost:777/posts",{
+  return axios.post("https://backendtodo-51m3.onrender.com/posts",{
     "title":title,
     "text":text,
 },

@@ -10,7 +10,7 @@ export function Main() {
           setText(event.target.value)
           }
       function Create() {
-        return axios.post("http://localhost:777/posts",{
+        return axios.post("https://backendtodo-51m3.onrender.com/posts",{
           "title":title,
           "text":text
         })
