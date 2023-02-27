@@ -62,12 +62,28 @@ function App() {
         "email":email,
         "password":password
       }).then((res)=>{localStorage.setItem("Token",res.data.token);
-      setModal(false)})
+      setModal(false)
+      window.location.reload()
+    })
     .catch((err)=>{
       setError(true);
     })
 
   }
+  function SignUp() {
+    return axios.post("http://localhost:777/register",{
+      "email":email,
+      "password":password,
+      "fullname":fname
+    }).then((res)=>{localStorage.setItem("Token",res.data.token);
+    setRegister(false)
+    window.location.reload()
+  })
+  .catch((err)=>{
+    setError(true);
+  })
+
+}
   function Get() {
     return axios.get("http://localhost:777/posts",{
       headers:{
@@ -93,13 +109,14 @@ function Add() {
 <>
 {register&&<Modal title="Sign Up">
   <form className="text-black flex justify-center flex-col px-[40%]" onSubmit={notDefoult}>
-    {error&&<div className="text-red-600">Incorect Email or password</div>}
+    {error&&<div className="text-red-600">This email already use</div>}
     <input type="text" placeholder="fullname" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={fname} onChange={changeFname}/>
     <input type="email" placeholder="email" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={email} onChange={changeEmail}/>
     <input type="password" placeholder="password" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={password} onChange={changePassword}/>
-    <input type="submit" value="Login" className="bg-[#5aff3199] py-3" onClick={()=>{Login()}}/>
+    <input type="submit" value="SignUp" className="bg-[#5aff3199] py-3" onClick={()=>{SignUp()}}/>
   </form>
-  <div className="text-black text-right cursor-pointer" onClick={()=>{setRegister(true); setModal(false)}}>SignUp</div>
+  <div className="text-black text-left cursor-pointer ml-5" onClick={()=>setRegister(false)}>Close</div>
+  <div className="text-black text-right cursor-pointer mr-5" onClick={()=>{setRegister(false); setModal(true)}}>Login</div>
 </Modal>}
 {modal&&<Modal title="Login">
   <form className="text-black flex justify-center flex-col px-[40%]" onSubmit={notDefoult}>
@@ -108,7 +125,8 @@ function Add() {
     <input type="password" placeholder="password" className="bg-[#25273C] px-5 py-3 mb-5 rounded" value={password} onChange={changePassword}/>
     <input type="submit" value="Login" className="bg-[#5aff3199] py-3" onClick={()=>{Login()}}/>
   </form>
-  <div className="text-black text-right cursor-pointer" onClick={()=>{setRegister(true); setModal(false)}}>SignUp</div>
+  <div className="text-black text-left cursor-pointer ml-5" onClick={()=>setModal(false)}>Close</div>
+  <div className="text-black text-right cursor-pointer mr-5" onClick={()=>{setRegister(true); setModal(false)}}>SignUp</div>
 </Modal>}
 {me&&<Modal title="Me">
   <div className="px-10">
